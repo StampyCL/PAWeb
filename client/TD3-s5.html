@@ -45,7 +45,7 @@ function envoiformulaire(e) {
 <script>
 // Création d'une carte dans la balise div "map",
 // et position de la vue sur un point donné et un niveau de zoom
-var map = L.map('map').setView([45.775,4.83], 14);
+var map = L.map('map').setView([-26.372737, -140.880123], 2);
 
 // Ajout d'une couche de dalles OpenStreetMap
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -71,7 +71,8 @@ function load_data () {
       // attachement d'une popup, capture de l'événement 'clic'
       // ajout d'une propriété personnalisée au marqueur
       L.marker([data[n].lat,data[n].lon]).addTo(map)
-       .bindPopup('Lieu = '+data[n].name)
+       .bindPopup('<d1><dt>Pays</dt><dd>' + data[n].pays + '</dd><dt>Capitale</dt><dd>' +data[n].capital + '</dd></d1>')
+       //.bindPopup('Lieu = '+data[n].name)
        .addEventListener('click',OnMarkerClick)
        .idnum = data[n].id;
     }

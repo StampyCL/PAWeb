@@ -25,13 +25,13 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
     self.init_params()
     
     if self.path_info[0] == "location":
-      data=[{'id':1,'lat':45.76843,'lon':4.82667,'name':"Rue Couverte"},
-            {'id':2,'lat':45.77128,'lon':4.83251,'name':"Rue Caponi"},
-            {'id':3,'lat':45.78061,'lon':4.83196,'name':"Jardin Rosa-Mir"}]
-      self.send_json(data)
+      self.send_locations()
 
     # requete description - retourne la description du lieu dont on passe l'id en paramètre dans l'URL
-    elif self.path_info[0] == "description":
+    elif self.path_info[0] == "description" and len(self.path_info) > 1:
+      self.send_country(self.path_info[1])
+      '''
+      #self.send_description(int(self.path_info[1]))
       data=[{'id':1,'desc':"Il ne faut pas être <b>trop grand</b> pour marcher dans cette rue qui passe sous une maison"},
             {'id':2,'desc':"Cette rue est <b>si étroite</b> qu'on touche les 2 côtés en tendant les bras !"},
             {'id':3,'desc':"Ce jardin <b>méconnu</b> évoque le palais idéal du Facteur Cheval"}]
@@ -39,6 +39,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         if c['id'] == int(self.path_info[1]):
           self.send_json(c)
           break
+      '''
 
     # le chemin d'accès commence par /time
     elif self.path.startswith('/time'):
@@ -137,6 +138,23 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
 
     # on envoie
     self.send(body,headers)
+  
+  def send_locations(self):
+    # création d'un curseur (conn est globale)
+    c = conn.cursor()
+    
+    # récupération de la liste des pays dans la base
+    c.execute("SELECT wp, latitude, longitude, capital FROM Countries")
+    r = c.fetchall()
+
+    # construction de la réponse
+    data = []
+    n = 0
+    for a in r:
+       n += 1
+       data.append({'id':n,'lat':a[1],'lon':a[2],'pays':a[0], 'capital':a[3]})
+    
+    self.send_json(data)
 
   #
   # On renvoie la liste des pays
@@ -230,7 +248,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
     # on envoie le corps de la réponse
     self.wfile.write(encoded)
 
- 
+
 #
 # Ouverture d'une connexion avec la base de données
 #
