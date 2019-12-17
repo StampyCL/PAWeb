@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<title>PAAAAAAAAAAAAYYYYYYYYYYYYYYYYYYYSSSSSSSSS</title>
+</head>
+<body>
+	<h1>Rechercher un pays</h1>
+	<pre>
+		<label>Pays : <input type="text" id="country"></label>
+		<br>
+		<button id="bouton">Ok</button> 
+	</pre>	
+	<div id="reponse"></div>
+</body>
+<script>
+document.getElementById('bouton').addEventListener('click', envoiformulaire);
+
+function envoiformulaire(e) {
+    var xhr = new XMLHttpRequest(); 
+    var cn = document.getElementById('country').value;
+    xhr.onload = function() {   // fonction callback
+      var data = this.responseText;
+	  document.getElementById('reponse').innerHTML = data;
+	  };
+    xhr.open('GET','/country/'+cn,true);  // requête avec une "query string"
+    xhr.send();
+}
+</script>
+</html>
