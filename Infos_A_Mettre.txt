@@ -1,0 +1,16 @@
+Nom
+Drapeau
+Nom officiel
+
+Continent
+Régime // type de gouvernement
+Capitale
+Pop
+
+Langue
+Monnaie
+Sens de circulation
+Indicateur de Téléphonie (uniquement principal)
+Domaine internet du pays
+Aire du pays
+PIB
