@@ -3,6 +3,7 @@
 import http.server
 import socketserver
 import sqlite3
+import json
 
 from urllib.parse import urlparse, parse_qs, unquote
 
@@ -10,6 +11,7 @@ from urllib.parse import urlparse, parse_qs, unquote
 #
 # Définition du nouveau handler
 #
+
 class RequestHandler(http.server.SimpleHTTPRequestHandler):
 
   # sous-répertoire racine des documents statiques
@@ -21,9 +23,25 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
   def do_GET(self):
     # on récupère les paramètres
     self.init_params()
+    
+    if self.path_info[0] == "location":
+      data=[{'id':1,'lat':45.76843,'lon':4.82667,'name':"Rue Couverte"},
+            {'id':2,'lat':45.77128,'lon':4.83251,'name':"Rue Caponi"},
+            {'id':3,'lat':45.78061,'lon':4.83196,'name':"Jardin Rosa-Mir"}]
+      self.send_json(data)
+
+    # requete description - retourne la description du lieu dont on passe l'id en paramètre dans l'URL
+    elif self.path_info[0] == "description":
+      data=[{'id':1,'desc':"Il ne faut pas être <b>trop grand</b> pour marcher dans cette rue qui passe sous une maison"},
+            {'id':2,'desc':"Cette rue est <b>si étroite</b> qu'on touche les 2 côtés en tendant les bras !"},
+            {'id':3,'desc':"Ce jardin <b>méconnu</b> évoque le palais idéal du Facteur Cheval"}]
+      for c in data:
+        if c['id'] == int(self.path_info[1]):
+          self.send_json(c)
+          break
 
     # le chemin d'accès commence par /time
-    if self.path.startswith('/time'):
+    elif self.path.startswith('/time'):
       self.send_time()
    
     # le chemin d'accès commence par /countries
@@ -43,6 +61,19 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
   #
   def do_HEAD(self):
     self.send_static()
+
+  # méthode pour traiter les requêtes POST - non utilisée dans l'exemple
+  def do_POST(self):
+    self.init_params()
+
+    # requête générique
+    if self.path_info[0] == "service":
+      self.send_html(('<p>Path info : <code>{}</code></p><p>Chaîne de requête : <code>{}</code></p>' \
+          + '<p>Corps :</p><pre>{}</pre>').format('/'.join(self.path_info),self.query_string,self.body));
+
+    else:
+      self.send_error(405)
+
 
   #
   # On envoie le document statique demandé
@@ -116,7 +147,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
     c = conn.cursor()
     
     # récupération de la liste des pays dans la base
-    c.execute("SELECT name FROM countries")
+    c.execute("SELECT name FROM Countries")
     r = c.fetchall()
 
     # construction de la réponse
@@ -162,6 +193,24 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
       headers = [('Content-Type','text/html;charset=utf-8')]
       self.send(body,headers)
 
+
+  # on envoie un document html dynamique
+  def send_html(self,content):
+     headers = [('Content-Type','text/html;charset=utf-8')]
+     html = '<!DOCTYPE html><title>{}</title><meta charset="utf-8">{}' \
+         .format(self.path_info[0],content)
+     self.send(html,headers)
+
+  # on envoie un contenu encodé en json
+  def send_json(self,data,headers=[]):
+    body = bytes(json.dumps(data),'utf-8') # encodage en json et UTF-8
+    self.send_response(200)
+    self.send_header('Content-Type','application/json')
+    self.send_header('Content-Length',int(len(body)))
+    [self.send_header(*t) for t in headers]
+    self.end_headers()
+    self.wfile.write(body) 
+    
   #
   # On envoie les entêtes et le corps fourni
   #
