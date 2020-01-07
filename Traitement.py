@@ -128,3 +128,18 @@ def get_monnaie(info):
             if not('Dollar sign' in l):
                 lg.append(l)
     return(lg)
+
+def get_drive(info):
+    if common_name(info)=='Argentina':
+        return('right')
+    elif common_name(info)=='Samoa':
+        return('left')
+    else:
+        dr=info['drives_on']
+        try:
+            t = re.search(r"\b\|\w+", dr)
+            l = t.group()
+            l=l[1:]
+        except:
+            l=dr
+        return(l)
