@@ -4,7 +4,7 @@ Created on Tue Dec 17 09:00:07 2019
 
 @author: 33647
 """
-import serveur0
+import Traitement
 
 data=get_info('south_america','Argentina.json')
 data['capital'][2:11]

@@ -105,3 +105,9 @@ def get_langue(info):
                 x=3
         
         return(lg)
+        
+def common_name(info):
+    if get_name(info)=='Republic of Palau':
+        return('Palau')
+    cn=info['common_name']
+    return(cn)
