@@ -22,6 +22,8 @@ def get_name(info):
     while vn[0]=="[":
         m = re.match("\[\[([\w ]+)\]\]", vn)
         vn=m.group(1)
+    if vn=='Argentine Republic {{efn-ua|name|=|altnames|Article 35 of the [[Argentine Constitution]] gives equal recognition to the names "[[United Provinces of the Rio de la Plata]]", "Argentine Republic" and "Argentine Confederation" and using "Argentine Nation" in the making and enactment of laws.|sfn|Constitution of Argentina|loc|=|art. 35}} {{sfn|Constitution of Argentina|loc|=|art. 35}}':
+        vn='Argentine Republic'
     return(vn)
     
 def print_capital(info):
@@ -70,11 +72,8 @@ def print_capitalBolivia(info):
     pays=info['common_name']
     coordonnees='unknown'
     return(capital,coordonnees)
-    
-def get_nameArgentina(info):
-    vn='Argentine Republic'
-    return(vn)
-    
+
+
 def get_regime(info):
     regime=info['government_type']
     regime=regime.split('] [')
