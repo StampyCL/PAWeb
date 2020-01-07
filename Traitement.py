@@ -81,3 +81,28 @@ def get_regime(info):
     regime[0]=regime[1:]
     regime[-1]=regime[-1][:-1]
     return(regime)
+    
+def get_langue(info):
+    lg=[]
+    if get_name(info)=='Republic of Fiji':
+        return(['English', 'Fijian', 'Rotuman','Fiji Hindi'])
+    elif get_name(info)=='Independent State of Papua New Guinea':
+        return(['Engligh','Hiri Motu','PNG Sign Language','Tok Pisin'])
+    elif get_name(info)=='Plurinational State of Bolivia':
+        return(['Spanish','36 indigenous languages'])
+    else:
+        try:
+            langue=info['official_languages']
+        except:
+            langue=info['languages']
+        matches = re.findall(r'\[\[.+?\]\]',langue) #Fiji, Papua, Bolivia,
+        for i in matches:
+            t = re.search(r"\b\|\w+", i)
+            try:
+                l = t.group()
+                l=l[1:]
+                lg.append(l)
+            except:
+                x=3
+        
+        return(lg)
