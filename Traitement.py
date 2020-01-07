@@ -111,3 +111,20 @@ def common_name(info):
         return('Palau')
     cn=info['common_name']
     return(cn)
+    
+def get_monnaie(info):
+    if common_name(info)=='Venezuela':
+        return(['Petro','Bolívar'])
+    lg=[]
+    mn=info['currency']
+    matches = re.findall(r'\[\[.+?\]\]',mn)
+    for i in matches:
+            t = re.search(r"\b\|\w+", i)
+            try:
+                l = t.group()
+                l=l[1:]
+            except:
+                l=i[2:-2]
+            if not('Dollar sign' in l):
+                lg.append(l)
+    return(lg)
