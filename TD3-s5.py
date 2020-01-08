@@ -29,7 +29,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
 
     # requete description - retourne la description du lieu dont on passe l'id en paramètre dans l'URL
     elif self.path_info[0] == "description" and len(self.path_info) > 1:
-      self.send_country(self.path_info[1])
+      #self.send_country(self.path_info[1])
       '''
       #self.send_description(int(self.path_info[1]))
       data=[{'id':1,'desc':"Il ne faut pas être <b>trop grand</b> pour marcher dans cette rue qui passe sous une maison"},
