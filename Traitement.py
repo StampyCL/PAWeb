@@ -74,13 +74,6 @@ def print_capitalBolivia(info):
     return(capital,coordonnees)
 
 
-def get_regime(info):
-    regime=info['government_type']
-    regime=regime.split('] [')
-    regime[0]=regime[1:]
-    regime[-1]=regime[-1][:-1]
-    return(regime)
-    
 def get_langue(info):
     lg=[]
     if get_name(info)=='Republic of Fiji':
@@ -167,7 +160,6 @@ def get_pib(info):
         a=pib.index('&')
         pib=pib[:a]+' '+pib[a+6:]
     return(pib)
-<<<<<<< HEAD
     
 def get_regime(info):
     if common_name(info)=='Papua New Guinea' or common_name(info)=='Tonga':
@@ -196,7 +188,6 @@ def get_regime(info):
     if s[0]==' ':
         s=s[1:]
     return(s)
-=======
 
 def get_population(pays,info):
     if pays=='Venezuela':
@@ -220,4 +211,3 @@ def get_population(pays,info):
     
 def get_aire(info):
     return(info['area_km2'])
->>>>>>> master
