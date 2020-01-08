@@ -29,10 +29,11 @@ Script pour la DB
 '''
 conn = sqlite3.connect('pays.db')
 cursor = conn.cursor()
-sql = 'INSERT INTO pays VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
+sql = 'INSERT INTO pays VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
 for t in liste_pays:
     data_pays = data.get(t)
     print(data_pays)
-    cursor.execute(sql, (t, data_pays['vn'], data_pays['Regime'], data_pays['capital'],
-    data_pays['Population'],  data_pays['Aire'], data_pays['PIB'], data_pays['Monnaie'], data_pays['drive']))
+    cursor.execute(sql, (t, data_pays['vn'], data_pays['Regime'], data_pays['Capital'],
+    data_pays['Population'],  data_pays['Aire'], data_pays['PIB'], data_pays['Monnaie'], data_pays['Drive'],
+    data_pays['Langue'], data_pays['Drapeau'], data_pays['Phone'], data_pays['Domaine_internet']))
     conn.commit()
