@@ -152,3 +152,7 @@ def get_call(info):
     else:
         l=cc[2:-2]
     return(l)
+    
+def get_web(info):
+    dn=info['cctld']
+    return(dn[2:-2])
