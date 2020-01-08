@@ -32,8 +32,15 @@ def print_capital(info):
         m = re.match("\[\[([\w ]+)\]\]", capital)
         capital=m.group(1)
     pays=info['common_name']
-    coordonnees=info['coordinates']
-    return(capital,coordonnees)
+    if common_name(info)=='Brazil':
+       coordonnees= '15|47|S|47|52|W'
+       c=cv(coordonnees)
+    elif common_name(info)=='Vanuta':
+       c= -17.7450363,168.315741
+    else:
+        coordonnees=info['coordinates']
+        c=cv(coordonnees[8:])
+    return(capital,c)
 
 with ZipFile('oceania.zip','r') as z:
     l=z.namelist()  
@@ -45,7 +52,8 @@ def print_capitalNauru(info):
         capital=m.group(1)
     pays=info['common_name']
     coordonnees=info['coordinates']
-    return(capital,coordonnees)
+    c=cv(coordonnees[8:])
+    return(capital,c)
 
 
 def print_capitalPalau(info):
@@ -55,13 +63,15 @@ def print_capitalPalau(info):
         capital=m.group(1)
     pays='Palau'
     coordonnees=info['coordinates']
-    return(capital,coordonnees)
+    c=cv(coordonnees[8:])
+    return(capital,c)
     
 def print_capitalGuyana(info):
     capital=info['capital'][2:11]
     pays=info['common_name']
     coordonnees=info['coordinates']
-    return(capital,coordonnees)
+    c=cv(coordonnees[8:])
+    return(capital,c)
 
 
 def print_capitalBolivia(info):
@@ -70,8 +80,9 @@ def print_capitalBolivia(info):
         m = re.match("\[\[([\w ]+)\]\]", capital)
         capital=m.group(1)
     pays=info['common_name']
-    coordonnees='unknown'
-    return(capital,coordonnees)
+    coordonnees='19|02|N|65|15|W'
+    c=cv(coordonnees[8:])
+    return(capital,c)
 
 
 def get_langue(info):
