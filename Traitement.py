@@ -167,3 +167,31 @@ def get_pib(info):
         a=pib.index('&')
         pib=pib[:a]+' '+pib[a+6:]
     return(pib)
+    
+def get_regime(info):
+    if common_name(info)=='Papua New Guinea' or common_name(info)=='Tonga':
+        return('Unitary parliamentary constitutional monarchy')
+    if common_name(info)=='Samoa':
+        return('Unitary dominant-party aristocracy parliamentary democracy with a trace of aristocracy')
+    if common_name(info)=='Brazil':
+        return('Federal presidential constitutional republic')
+    if common_name(info)=='Guyana':
+        return('Unitary presidential constitutional socialist republic')
+    s=''
+    rg=info['government_type']
+    l=rg.split('] [')
+    for i in range(len(l)):
+        while '|' in l[i]:
+            a=l[i].index('|')
+            l[i]=l[i][a+1:]
+        while '[' in l[i]:
+            l[i]=l[i].replace('[','')
+        while ']' in l[i]:
+            l[i]=l[i].replace(']','')
+        while '}}' in l[i]:
+            l[i]=l[i].replace('}}','')
+    for n in l:
+        s= s +' '+ n
+    if s[0]==' ':
+        s=s[1:]
+    return(s)
