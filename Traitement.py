@@ -143,3 +143,12 @@ def get_drive(info):
         except:
             l=dr
         return(l)
+        
+def get_call(info):
+    cc=info["calling_code"]
+    if '|' in cc:
+        a=cc.index('|')
+        l=cc[a+1:-2]
+    else:
+        l=cc[2:-2]
+    return(l)
