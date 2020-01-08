@@ -156,3 +156,14 @@ def get_call(info):
 def get_web(info):
     dn=info['cctld']
     return(dn[2:-2])
+    
+def get_pib(info):
+    if common_name(info)=='Australia':
+        return('$1.500 trillion')
+    pib=info['GDP_nominal']
+    a=pib.index('$')
+    pib=pib[a:]
+    if '&' in pib:
+        a=pib.index('&')
+        pib=pib[:a]+' '+pib[a+6:]
+    return(pib)
