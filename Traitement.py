@@ -167,6 +167,7 @@ def get_pib(info):
         a=pib.index('&')
         pib=pib[:a]+' '+pib[a+6:]
     return(pib)
+<<<<<<< HEAD
     
 def get_regime(info):
     if common_name(info)=='Papua New Guinea' or common_name(info)=='Tonga':
@@ -195,3 +196,28 @@ def get_regime(info):
     if s[0]==' ':
         s=s[1:]
     return(s)
+=======
+
+def get_population(pays,info):
+    if pays=='Venezuela':
+        return('28,067,000')
+    if  pays=='Federated_States_of_Micronesia':
+        return('110,986')
+    if pays=='Solomon_Islands':
+        return('514,040')
+    if pays=='Bolivia':
+        return('11,428,245')
+    if pays=='Brazil':
+        return('210,147,125')
+    if pays=='Colombia':
+        return('48,258,494')
+    if pays=='Paraguay':
+        return('7,152,703')
+    return(info['population_census'])
+
+    
+
+    
+def get_aire(info):
+    return(info['area_km2'])
+>>>>>>> master
