@@ -19,38 +19,59 @@ with ZipFile('oceania.zip','r') as z:
 
 for pays in l:
     D[pays[:-5]]={}
+    data=get_info('oceania',pays)
+    D[pays[:-5]]['Drapeau']=pays[:-5]+'.png'
+    D[pays[:-5]]['Population']=get_population(pays[:-5],data)
+    D[pays[:-5]]['Langue']=get_langue(data)
+    D[pays[:-5]]['Monnaie']=get_monnaie(data)
+    D[pays[:-5]]['Drive']=get_drive(data)
+    D[pays[:-5]]['Regime']=get_regime(data)
+    D[pays[:-5]]['Aire']=get_aire(data)+'km²'
+    D[pays[:-5]]['Phone']=get_call(data)
+    D[pays[:-5]]['Domaine_internet']=get_web(data)
+    D[pays[:-5]]['PIB']=get_pib(data)
     if pays=='Nauru.json':
         print(pays)
-        data=get_info('oceania',pays)
-        D[pays[:-5]]['vn'],D[pays[:-5]]['capital']=get_name(data),print_capitalNauru(data)
+        D[pays[:-5]]['vn'],D[pays[:-5]]['Capital']=get_name(data),print_capitalNauru(data)
     elif pays=='Palau.json':
         print(pays)
-        data=get_info('oceania',pays)
-        D[pays[:-5]]['vn'],D[pays[:-5]]['capital']=get_name(data),print_capitalPalau(data)
+        D[pays[:-5]]['vn'],D[pays[:-5]]['Capital']=get_name(data),print_capitalPalau(data)
     else:
         print(pays)
-        data=get_info('oceania',pays)
-        D[pays[:-5]]['vn'],D[pays[:-5]]['capital']=get_name(data),print_capital(data)
+        D[pays[:-5]]['vn'],D[pays[:-5]]['Capital']=get_name(data),print_capital(data)
 
 with ZipFile('south_america.zip','r') as z:
     l=z.namelist()
-    
+
+Q={}
+  
 for pays in l:
-    D[pays[:-5]]={}
+    Q[pays[:-5]]={}
+    data=get_info('south_america',pays)
+    Q[pays[:-5]]['Drapeau']=pays[:-5]+'.png'
+    Q[pays[:-5]]['Population']=get_population(pays[:-5],data)
+    Q[pays[:-5]]['Langue']=get_langue(data)
+    Q[pays[:-5]]['Monnaie']=get_monnaie(data)
+    Q[pays[:-5]]['Drive']=get_drive(data)
+    Q[pays[:-5]]['Regime']=get_regime(data)
+    Q[pays[:-5]]['Aire']=get_aire(data)+'km²'
+    Q[pays[:-5]]['Phone']=get_call(data)
+    Q[pays[:-5]]['Domaine_internet']=get_web(data)
+    Q[pays[:-5]]['PIB']=get_pib(data)
     if  pays=='Argentina.json':
         print(pays)
-        data=get_info('south_america',pays)
-        D[pays[:-5]]['vn'],D[pays[:-5]]['capital']=get_nameArgentina(data),print_capital(data)
+        Q[pays[:-5]]['vn'],Q[pays[:-5]]['Capital']=get_nameArgentina(data),print_capital(data)
     if  pays=='Bolivia.json':
         print(pays)
-        data=get_info('south_america',pays)
-        D[pays[:-5]]['vn'],D[pays[:-5]]['capital']=get_name(data),print_capitalBolivia(data)
+        Q[pays[:-5]]['vn'],Q[pays[:-5]]['Capital']=get_name(data),print_capitalBolivia(data)
     elif  pays=='Guyana.json':
         print(pays)
-        data=get_info('south_america',pays)
-        D[pays[:-5]]['vn'],D[pays[:-5]]['capital']=get_name(data),print_capitalGuyana(data)
+        Q[pays[:-5]]['vn'],Q[pays[:-5]]['Capital']=get_name(data),print_capitalGuyana(data)
     else:
         print(pays)
-        data=get_info('south_america',pays)
-        D[pays[:-5]]['vn'],D[pays[:-5]]['capital']=get_name(data),print_capital(data)
+        Q[pays[:-5]]['vn'],Q[pays[:-5]]['Capital']=get_name(data),print_capital(data)
+        
+        
+South_America=Q
+Oceania=D
         
