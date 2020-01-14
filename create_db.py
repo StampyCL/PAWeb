@@ -29,11 +29,13 @@ Script pour la DB
 '''
 conn = sqlite3.connect('pays.db')
 cursor = conn.cursor()
-sql = 'INSERT INTO pays VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+sql = 'INSERT INTO pays VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)'
 for t in liste_pays:
     data_pays = data.get(t)
-    print(data_pays)
+#    print(data_pays)
+
     cursor.execute(sql, (t, data_pays['vn'], data_pays['Regime'], data_pays['Capital'],
-    data_pays['Population'],  data_pays['Aire'], data_pays['PIB'], data_pays['Monnaie'], data_pays['Drive'],
-    data_pays['Langue'], data_pays['Drapeau'], data_pays['Phone'], data_pays['Domaine_internet']))
+    data_pays['Population'],  data_pays['Aire'], data_pays['PIB'], data_pays['Monnaie'], data_pays['drive'],
+    data_pays['Langue'], t + '.png', data_pays['Phone'], data_pays('web'), data_pays['Capital'][1][0], data_pays['Capital'][1][1]))
     conn.commit()
+#    break
