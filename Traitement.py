@@ -8,6 +8,7 @@ Created on Tue Dec 17 08:58:00 2019
 from zipfile import ZipFile
 import json
 import re
+import cv_coords
 
 def get_info(continent,country):
     with ZipFile(continent+'.zip','r') as z:
@@ -22,8 +23,6 @@ def get_name(info):
     while vn[0]=="[":
         m = re.match("\[\[([\w ]+)\]\]", vn)
         vn=m.group(1)
-    if vn=='Argentine Republic {{efn-ua|name|=|altnames|Article 35 of the [[Argentine Constitution]] gives equal recognition to the names "[[United Provinces of the Rio de la Plata]]", "Argentine Republic" and "Argentine Confederation" and using "Argentine Nation" in the making and enactment of laws.|sfn|Constitution of Argentina|loc|=|art. 35}} {{sfn|Constitution of Argentina|loc|=|art. 35}}':
-        vn='Argentine Republic'
     return(vn)
     
 def print_capital(info):
@@ -35,7 +34,7 @@ def print_capital(info):
     if common_name(info)=='Brazil':
        coordonnees= '15|47|S|47|52|W'
        c=cv(coordonnees)
-    elif common_name(info)=='Vanuta':
+    elif info['conventional_long_name']=='Republic of Vanuatu':
        c= -17.7450363,168.315741
     else:
         coordonnees=info['coordinates']
@@ -83,8 +82,64 @@ def print_capitalBolivia(info):
     coordonnees='19|02|N|65|15|W'
     c=cv(coordonnees[8:])
     return(capital,c)
+    
+def get_nameArgentina(info):
+    vn='Argentine Republic'
+    return(vn)
+    
+def get_regime(info):
+    if common_name(info)=='Papua New Guinea' or common_name(info)=='Tonga':
+        return('Unitary parliamentary constitutional monarchy')
+    if common_name(info)=='Samoa':
+        return('Unitary dominant-party aristocracy parliamentary democracy with a trace of aristocracy')
+    if common_name(info)=='Brazil':
+        return('Federal presidential constitutional republic')
+    if common_name(info)=='Guyana':
+        return('Unitary presidential constitutional socialist republic')
+    s=''
+    rg=info['government_type']
+    l=rg.split('] [')
+    for i in range(len(l)):
+        while '|' in l[i]:
+            a=l[i].index('|')
+            l[i]=l[i][a+1:]
+        while '[' in l[i]:
+            l[i]=l[i].replace('[','')
+        while ']' in l[i]:
+            l[i]=l[i].replace(']','')
+        while '}}' in l[i]:
+            l[i]=l[i].replace('}}','')
+    for n in l:
+        s= s +' '+ n
+    if s[0]==' ':
+        s=s[1:]
+    return(s)
+    
+def get_population(pays,info):
+    if pays=='Venezuela':
+        return('28,067,000')
+    if  pays=='Federated_States_of_Micronesia':
+        return('110,986')
+    if pays=='Solomon_Islands':
+        return('514,040')
+    if pays=='Bolivia':
+        return('11,428,245')
+    if pays=='Brazil':
+        return('210,147,125')
+    if pays=='Colombia':
+        return('48,258,494')
+    if pays=='Paraguay':
+        return('7,152,703')
+    return(info['population_census'])
 
+    
 
+    
+def get_aire(info):
+    return(info['area_km2'])
+    
+
+    
 def get_langue(info):
     lg=[]
     if get_name(info)=='Republic of Fiji':
@@ -131,8 +186,10 @@ def get_monnaie(info):
                 l=i[2:-2]
             if not('Dollar sign' in l):
                 lg.append(l)
+                
+                
     return(lg)
-
+    
 def get_drive(info):
     if common_name(info)=='Argentina':
         return('right')
@@ -147,7 +204,7 @@ def get_drive(info):
         except:
             l=dr
         return(l)
-        
+
 def get_call(info):
     cc=info["calling_code"]
     if '|' in cc:
@@ -171,54 +228,3 @@ def get_pib(info):
         a=pib.index('&')
         pib=pib[:a]+' '+pib[a+6:]
     return(pib)
-    
-def get_regime(info):
-    if common_name(info)=='Papua New Guinea' or common_name(info)=='Tonga':
-        return('Unitary parliamentary constitutional monarchy')
-    if common_name(info)=='Samoa':
-        return('Unitary dominant-party aristocracy parliamentary democracy with a trace of aristocracy')
-    if common_name(info)=='Brazil':
-        return('Federal presidential constitutional republic')
-    if common_name(info)=='Guyana':
-        return('Unitary presidential constitutional socialist republic')
-    s=''
-    rg=info['government_type']
-    l=rg.split('] [')
-    for i in range(len(l)):
-        while '|' in l[i]:
-            a=l[i].index('|')
-            l[i]=l[i][a+1:]
-        while '[' in l[i]:
-            l[i]=l[i].replace('[','')
-        while ']' in l[i]:
-            l[i]=l[i].replace(']','')
-        while '}}' in l[i]:
-            l[i]=l[i].replace('}}','')
-    for n in l:
-        s= s +' '+ n
-    if s[0]==' ':
-        s=s[1:]
-    return(s)
-
-def get_population(pays,info):
-    if pays=='Venezuela':
-        return('28,067,000')
-    if  pays=='Federated_States_of_Micronesia':
-        return('110,986')
-    if pays=='Solomon_Islands':
-        return('514,040')
-    if pays=='Bolivia':
-        return('11,428,245')
-    if pays=='Brazil':
-        return('210,147,125')
-    if pays=='Colombia':
-        return('48,258,494')
-    if pays=='Paraguay':
-        return('7,152,703')
-    return(info['population_census'])
-
-    
-
-    
-def get_aire(info):
-    return(info['area_km2'])
